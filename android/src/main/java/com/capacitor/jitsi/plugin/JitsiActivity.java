@@ -60,6 +60,15 @@ public class JitsiActivity extends JitsiMeetActivity {
         if (intent != null) {
             BroadcastEvent event = new BroadcastEvent(intent);
             Timber.tag(TAG).d(JitsiMeetView.class.getSimpleName() + ": " + event);
+
+            // Afficher les extras de l'intent
+            Bundle extras = intent.getExtras();
+            if (extras != null) {
+                for (String key : extras.keySet()) {
+                    Object value = extras.get(key);
+                    Timber.tag(TAG).d("Intent Extra: " + key + " = " + value);
+                }
+            }
             switch (event.getType()) {
                 case CONFERENCE_JOINED:
                     on("onConferenceJoined");
@@ -82,7 +91,7 @@ public class JitsiActivity extends JitsiMeetActivity {
                     on("onParticipantLeft");
                     break;
                 case CHAT_MESSAGE_RECEIVED:
-                    Timber.tag(TAG).d(JitsiMeetView.class.getSimpleName() + ": " + intent.getData());
+                    Timber.tag(TAG).d(JitsiMeetView.class.getSimpleName() + ": " + intent);
                     Timber.tag(TAG).d(JitsiMeetView.class.getSimpleName() + ": " + event.getType());
                     on("onSendChatMessage");
                     break;
