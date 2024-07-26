@@ -59,6 +59,7 @@ public class JitsiActivity extends JitsiMeetActivity {
         JitsiMeetView view = getJitsiView();
         if (intent != null) {
             BroadcastEvent event = new BroadcastEvent(intent);
+            Timber.tag(TAG).d(JitsiMeetView.class.getSimpleName() + ": " + event);
             switch (event.getType()) {
                 case CONFERENCE_JOINED:
                     on("onConferenceJoined");
@@ -79,6 +80,10 @@ public class JitsiActivity extends JitsiMeetActivity {
                     break;
                 case PARTICIPANT_LEFT:
                     on("onParticipantLeft");
+                    break;
+                case SEND_CHAT_MESSAGE:
+                    Timber.tag(TAG).d(JitsiMeetView.class.getSimpleName() + ": " + event.getType());
+                    on("onSendChatMessage");
                     break;
             }
         }
