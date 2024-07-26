@@ -81,7 +81,7 @@ public class JitsiActivity extends JitsiMeetActivity {
                 case PARTICIPANT_LEFT:
                     on("onParticipantLeft");
                     break;
-                case SEND_CHAT_MESSAGE:
+                case CHAT_MESSAGE_RECEIVED:
                     Timber.tag(TAG).d(JitsiMeetView.class.getSimpleName() + ": " + event.getType());
                     on("onSendChatMessage");
                     break;
