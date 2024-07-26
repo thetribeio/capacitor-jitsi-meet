@@ -15,8 +15,14 @@ public class JitsiBroadcastReceiver extends BroadcastReceiver {
 
     public void onReceive(Context context, Intent intent) {
         String eventName = (String) intent.getSerializableExtra("eventName");
+        String extraValue1 = (String) intent.getSerializableExtra("extraValue1");
+        String extraValue2 = (String) intent.getSerializableExtra("extraValue2");
         if (jitsi != null) {
-            jitsi.onEventReceived(eventName);
+            if(eventName.equals("onSendChatMessage")) {
+                jitsi.onEventReceived(eventName, extraValue1, extraValue2);
+            } else {
+                jitsi.onEventReceived(eventName);
+            }
         }
     }
 }

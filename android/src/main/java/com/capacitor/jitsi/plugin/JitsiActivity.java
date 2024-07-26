@@ -63,13 +63,6 @@ public class JitsiActivity extends JitsiMeetActivity {
             Timber.tag(TAG).d(JitsiMeetView.class.getSimpleName() + ": " + event);
 
             // Afficher les extras de l'intent
-            Bundle extras = intent.getExtras();
-            if (extras != null) {
-                for (String key : extras.keySet()) {
-                    Object value = extras.get(key);
-                    Timber.tag(TAG).d("Intent Extra: " + key + " = " + value);
-                }
-            }
             switch (event.getType()) {
                 case CONFERENCE_JOINED:
                     on("onConferenceJoined");
@@ -92,12 +85,26 @@ public class JitsiActivity extends JitsiMeetActivity {
                     on("onParticipantLeft");
                     break;
                 case CHAT_MESSAGE_RECEIVED:
-                    Timber.tag(TAG).d(JitsiMeetView.class.getSimpleName() + ": " + intent);
-                    Timber.tag(TAG).d(JitsiMeetView.class.getSimpleName() + ": " + event.getType());
-                    on("onSendChatMessage");
+                    Bundle extras = intent.getExtras();
+                    if (extras != null) {
+                        String message = extras.getString("message");
+                        String sender = extras.getString("sender");
+                        on("onSendChatMessage", message, sender);
+                    }
                     break;
             }
         }
+    }
+
+    private void on(String name, String extraValue1, String extraValue2) {
+        UiThreadUtil.assertOnUiThread();
+        Timber.tag(TAG).d(JitsiMeetView.class.getSimpleName() + ": " + name);
+
+        Intent intent = new Intent(name);
+        intent.putExtra("eventName", name);
+        intent.putExtra("extraValue1", extraValue1);
+        intent.putExtra("extraValue2", extraValue2);
+        sendBroadcast(intent);
     }
 
     private void on(String name) {
