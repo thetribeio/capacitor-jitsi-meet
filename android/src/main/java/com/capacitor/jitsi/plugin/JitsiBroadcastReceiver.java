@@ -3,6 +3,7 @@ package com.capacitor.jitsi.plugin;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import timber.log.Timber;
 
 public class JitsiBroadcastReceiver extends BroadcastReceiver {
 
