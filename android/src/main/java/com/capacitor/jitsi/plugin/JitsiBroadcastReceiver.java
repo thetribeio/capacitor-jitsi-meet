@@ -20,7 +20,7 @@ public class JitsiBroadcastReceiver extends BroadcastReceiver {
         String extraValue2 = (String) intent.getSerializableExtra("extraValue2");
         Timber.tag(TAG).d("onReceive: " + eventName + " " + extraValue1 + " " + extraValue2);
         if (jitsi != null) {
-            if(eventName.equals("onSendChatMessage")) {
+            if(eventName.equals("onReceiveChatMessage")) {
                 jitsi.onEventReceived(eventName, extraValue1, extraValue2);
             } else {
                 jitsi.onEventReceived(eventName);

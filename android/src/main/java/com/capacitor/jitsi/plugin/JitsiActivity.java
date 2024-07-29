@@ -88,8 +88,8 @@ public class JitsiActivity extends JitsiMeetActivity {
                     Bundle extras = intent.getExtras();
                     if (extras != null) {
                         String message = extras.getString("message");
-                        String sender = extras.getString("sender");
-                        on("onSendChatMessage", message, sender);
+                        String sender = extras.getString("senderId");
+                        on("onReceiveChatMessage", message, sender);
                     }
                     break;
             }

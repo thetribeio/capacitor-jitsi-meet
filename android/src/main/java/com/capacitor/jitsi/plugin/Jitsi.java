@@ -36,6 +36,7 @@ public class Jitsi extends Plugin {
     private static final String TAG = "CapacitorJitsiMeet";
     private JitsiBroadcastReceiver receiver;
     private JitsiMeetUserInfo userInfo;
+    public String userId;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @PluginMethod()
@@ -53,6 +54,7 @@ public class Jitsi extends Plugin {
         String subject = call.getString("subject", " ");
         String email = call.getString("email");
         String avatarURL = call.getString("avatarURL");
+        userId = call.getString("userId");
         Boolean startWithAudioMuted = call.getBoolean("startWithAudioMuted");
         Boolean startWithVideoMuted = call.getBoolean("startWithVideoMuted");
         JSObject featureFlags = call.getObject("featureFlags", new JSObject());
@@ -60,7 +62,7 @@ public class Jitsi extends Plugin {
         receiver = new JitsiBroadcastReceiver();
         receiver.setModule(this);
         IntentFilter filter = new IntentFilter();
-        filter.addAction("onSendChatMessage");
+        filter.addAction("onReceiveChatMessage");
         filter.addAction("onConferenceWillJoin");
         filter.addAction("onConferenceJoined");
         filter.addAction("onConferenceLeft"); // intentionally uses the obsolete onConferenceLeft in order to be consistent with iOS deployment and broadcast to JS listeners
@@ -184,7 +186,7 @@ public class Jitsi extends Plugin {
     }
 
     public void onEventReceived(String eventName, String extraValue1, String extraValue2) {
-        Timber.tag(TAG).d("onEventReceived: " + eventName + " " + extraValue1 + " " + extraValue2);
+        Timber.tag(TAG).d("onEventReceived: " + eventName + " " + extraValue1 + " " + extraValue2 + " " + userId);
         bridge.triggerWindowJSEvent(eventName, "{ \"message\" : \"" + extraValue1 + "\" , \"sender\" : \"" + extraValue2 + "\" }");
     }
 }
