@@ -172,6 +172,7 @@ public class Jitsi extends Plugin {
     }
 
     public void onEventReceived(String eventName) {
+        Timber.tag(TAG).d("onEventReceived: " + eventName);
         bridge.triggerWindowJSEvent(eventName);
         if(eventName.equals("onConferenceLeft")) {
             if (receiver != null) {
