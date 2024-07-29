@@ -60,6 +60,7 @@ public class Jitsi extends Plugin {
         receiver = new JitsiBroadcastReceiver();
         receiver.setModule(this);
         IntentFilter filter = new IntentFilter();
+        filter.addAction("onSendChatMessage");
         filter.addAction("onConferenceWillJoin");
         filter.addAction("onConferenceJoined");
         filter.addAction("onConferenceLeft"); // intentionally uses the obsolete onConferenceLeft in order to be consistent with iOS deployment and broadcast to JS listeners
